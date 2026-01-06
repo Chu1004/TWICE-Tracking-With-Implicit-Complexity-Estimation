@@ -1,0 +1,37 @@
+# D2MP-DDIM 配置文件
+# 完整配置（包含數據路徑和所有訓練參數）
+
+# 數據配置
+data:
+  data_root: C:\Users\User\Desktop\AIFP\pipeline\DanceTrack  # DanceTrack 數據集根目錄
+  train_split: train      # 訓練集目錄名
+  val_split: val          # 驗證集目錄名
+
+# 模型配置
+model:
+  input_dim: 8            # 4 (box: x,y,w,h) + 4 (delta)
+  hidden_dim: 256         # 隱藏層維度
+  output_dim: 4           # 輸出維度（預測的 delta）
+  n_layers: 6             # Transformer 層數
+  dropout: 0.1            # Dropout 率
+  time_emb_dim: 128       # 時間嵌入維度
+  n_timesteps: 1000       # DDPM 時間步數
+  ddim_steps: 50          # DDIM 採樣步數
+  n_frames: 8             # 歷史幀數（用於預測）
+
+# 訓練配置
+training:
+  batch_size: 64          # 批次大小（如果 GPU 記憶體不足，改為 32）
+  lr: 0.0001              # 學習率
+  epochs: 120             # 訓練輪數
+  grad_clip: 1.0          # 梯度裁剪
+  weight_decay: 0.0001    # 權重衰減
+  
+  # 學習率調度
+  scheduler: cosine       # 學習率調度器 (cosine/step/none)
+  warmup_epochs: 5        # 預熱輪數
+  
+  # 保存與日誌
+  save_interval: 10       # 每 N 個 epoch 保存一次
+  log_interval: 10        # 每 N 個 batch 記錄一次
+  val_interval: 1         # 每 N 個 epoch 驗證一次
